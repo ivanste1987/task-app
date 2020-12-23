@@ -16,6 +16,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 app.use(express.json())
 
+
+//Middlewere Auth
+
+
 //Tasks router
 const taskRouter = require('./router/tasks/tasks.js')
 app.use(taskRouter)
@@ -23,6 +27,10 @@ app.use(taskRouter)
 //Users router
 const userRouter = require('./router/users/users.js')
 app.use(userRouter)
+
+//Login logout router
+const logInOut = require('./router/users/logInOut')
+app.use(logInOut)
 
 //PORT
 app.listen(PORT, () => {

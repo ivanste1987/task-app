@@ -1,8 +1,9 @@
 const mongoose = require('../dbconnect')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-
+//user db schema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -40,8 +41,45 @@ const userSchema = new mongoose.Schema({
                 throw new Error("Age is not valid.")
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
+//seting user with jwt token
+userSchema.methods.genAuthToken = async function () {
+
+    const user = this
+    const token = jwt.sign({
+        _id: user._id.toString()
+    }, 'somesecretcode')
+
+
+    user.tokens = user.tokens.concat({
+        token
+    })
+    await user.save()
+
+    return token
+}
+//Sending back data to user
+userSchema.methods.toJSON = function () {
+    const user = this
+
+    const userData = user.toObject()
+
+    delete userData.password
+    delete userData.tokens
+    delete userData._id
+    delete userData.__v
+
+    return userData
+}
+
+//auth of user password
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({
         email

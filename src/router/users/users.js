@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const auth = require('../../middleware/auth')
 const User = require('../../db/models/users')
 
 
@@ -8,23 +9,20 @@ router.post('/users', async (req, res) => {
 
     try {
         await user.save()
-        res.status(201).send(user)
+        const token = await user.genAuthToken()
+        res.status(201).send({
+            user,
+            token
+        })
     } catch (e) {
         res.status(400).send(e)
     }
-}) 
-//reading all users
-router.get('/users', async (req, res) => {
+})
 
-    try {
-        const allUsers = await User.find({})
-        res.status(200).send(allUsers)
 
-    } catch (error) {
-        res.status(500).send({
-            error: 'Server error'
-        })
-    }
+//Sending user profile
+router.get('/users/profile', auth, async (req, res) => {
+    res.send(req.user)
 })
 
 //finding user by ID
@@ -105,13 +103,5 @@ router.delete('/users/:id', async (req, res) => {
 
 })
 
-router.post('/users/login', async (req, res) => {
-    console.log(req.body)
-    try {
-        const user = await User.findByCredentials(req.body.email, req.body.password)
-        res.send(user)
-    } catch (error) {
-        res.status(400).send({error: "Wrong email or password."})
-    }
-})
+
 module.exports = router
