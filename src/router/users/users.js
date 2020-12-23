@@ -25,30 +25,9 @@ router.get('/users/profile', auth, async (req, res) => {
     res.send(req.user)
 })
 
-//finding user by ID
-router.get('/users/:id', async (req, res) => {
-
-    try {
-        const findUserBuId = await User.findById(req.params.id)
-
-        if (!findUserBuId) {
-            res.status(400).send({
-                message: 'This user does not exist.'
-            })
-        }
-        res.status(200).send({
-            user: findUserBuId
-        })
-    } catch (error) {
-        res.status(500).send({
-            error: 'Server error'
-        })
-    }
-})
 
 //update user
-router.patch('/users/update/:id', async (req, res) => {
-
+router.patch('/users/update/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'age']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -60,18 +39,18 @@ router.patch('/users/update/:id', async (req, res) => {
     }
 
     try {
-        const user = await User.findById(req.params.id)
+        //const user = await User.findById(req.user._id)
 
-        updates.forEach((update) => user[update] = req.body[update])
-        await user.save()
+        updates.forEach((update) => req.user[update] = req.body[update])
+        await req.user.save()
 
-        if (!user) {
-            return res.status(404).send({
-                error: "Bad Request"
-            })
-        }
+        // if (!req.user) {
+        //     return res.status(404).send({
+        //         error: "Bad Request"
+        //     })
+        // }
 
-        res.send(user)
+        res.send(req.user)
 
     } catch (e) {
         res.status(400).send(e)
@@ -82,18 +61,24 @@ router.patch('/users/update/:id', async (req, res) => {
 
 
 //delete user
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/me', auth, async (req, res) => {
 
     try {
-        const deleteUser = await User.findByIdAndDelete(req.params.id)
+        // const deleteUser = await User.findByIdAndDelete(req.params.id)
 
-        if (!deleteUser) {
-            res.status(400).send({
-                error: 'This user does not exist.'
-            })
-        }
-        res.status(201).send({
-            deleted: deleteUser
+        // if (!deleteUser) {
+        //     res.status(400).send({
+        //         error: 'This user does not exist.'
+        //     })
+        // }
+        // res.status(201).send({
+        //     deleted: deleteUser
+        // })
+
+        await req.user.delete()
+        res.status(200).send({
+            user: req.user,
+            message: 'You are deleted.'
         })
     } catch (error) {
         res.status(500).send({
@@ -101,6 +86,10 @@ router.delete('/users/:id', async (req, res) => {
         })
     }
 
+})
+//testing purposes
+router.get('/', auth, async (req, res ) => {
+    console.log(req.user)
 })
 
 
