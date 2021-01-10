@@ -29,7 +29,7 @@ router.post('/users/logout', auth, async (req, res) => {
             message: 'You are logout'
         })
     } catch (error) {
-        res.status(500).send()
+        res.status(500).send(error)
     }
 
 })

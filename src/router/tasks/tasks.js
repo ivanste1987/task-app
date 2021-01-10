@@ -1,13 +1,11 @@
 const router = require('express').Router()
 const auth = require('../../middleware/auth')
-
 const Task = require('../../db/models/tasks.js')
-
 
 
 //creating a new task
 router.post('/tasks', auth, async (req, res) => {
-console.log(req.body)
+
     //const task = new Task(req.body)
 
     const task = new Task({
@@ -16,9 +14,9 @@ console.log(req.body)
     })
 
     try {
-        const newTask = await task.save()
+        await task.save()
         res.status(201).send({
-            newTask
+            task
         })
     } catch (error) {
         res.status(500).send({
@@ -30,25 +28,56 @@ console.log(req.body)
 
 })
 //reading all tasks
-router.get('/tasks', async (req, res) => {
+// GET /task?completed=true
+// GET /task?limit=?&skip=?
+// GET /task?sortBy=createdAt:desc
+router.get('/tasks', auth, async (req, res) => {
+    const match = {}
+    const sort = {}
+
+    if (req.query.completed) {
+        match.completed = req.query.completed === 'true'
+    }
+
+    if (req.query.sortBy) {
+        const parts = req.query.sortBy.split(':')
+        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
+    }
+
     try {
-        const allTasks = await Task.find({})
-        res.status(201).send(allTasks)
+        //const tasks = await User.findById({owner: req.user._id})
+
+        await req.user.populate({
+            path: 'tasks',
+            match,
+            options: {
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                sort
+            }
+        }).execPopulate()
+        res.status(201).send(req.user.tasks)
     } catch (error) {
-        res.status(500).send()
+        res.status(500).send({
+            error: "Server error"
+        })
     }
 })
 
 //finding task by ID
-router.get('/tasks/:id', async (req, res) => {
+router.get('/tasks/:id', auth, async (req, res) => {
+    const _id = req.params.id
     try {
-        const taskByID = await Task.findById(req.params.id)
+        const taskByID = await Task.findOne({ _id, owner: req.user._id })
+
         if (!taskByID) {
             return res.status(404).send({
                 message: 'Task is not found.'
             })
         }
+
         res.status(200).send(taskByID)
+
     } catch (error) {
         res.status(500).send({
             message: 'Server error.'
@@ -58,10 +87,12 @@ router.get('/tasks/:id', async (req, res) => {
 })
 
 
-//Dealiting task from DB
-router.delete('/tasks/delete/:id', async (req, res) => {
+//Deleteing task from DB
+router.delete('/tasks/delete/:id', auth, async (req, res) => {
     try {
-        const task = await Task.findByIdAndDelete(req.params.id)
+        //const task = await Task.findByIdAndDelete(req.params.id)
+        const task = await Task.findByIdAndDelete({ _id: req.params.id, owner: req.user._id })
+
         if (!task) {
             return res.status(404).send({
                 message: 'This task do not exist'
@@ -76,7 +107,7 @@ router.delete('/tasks/delete/:id', async (req, res) => {
 })
 
 //update of tasks
-router.patch('/tasks/update/:id', async (req, res) => {
+router.patch('/tasks/update/:id', auth, async (req, res) => {
     //validation of incoming request for updates values
     const allowedUpdates = ["completed", 'description']
     const updates = Object.keys(req.body)
@@ -90,18 +121,20 @@ router.patch('/tasks/update/:id', async (req, res) => {
         })
     }
     try {
-        const task = await Task.findById(req.params.id)
-
-        updates.forEach((update) => {
-            return task[update] = req.body[update]
-        })
-
+        const task = await Task.findOne({ _id: req.params.id, owner: req.user._id })
 
         if (!task) {
             return res.status(400).send({
                 message: 'Something went wrong'
             })
         }
+
+        updates.forEach((update) => {
+            return task[update] = req.body[update]
+        })
+
+        await task.save()
+
         res.status(200).send({
             update: task
         })
