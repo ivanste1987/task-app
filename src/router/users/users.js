@@ -3,7 +3,7 @@ const auth = require('../../middleware/auth')
 const User = require('../../db/models/users')
 const multer = require('multer')
 const sharp = require('sharp')
-
+const { welcomeEmail, goodbayEmail } = require('../../email/account')
 
 //creating new user
 router.post('/users', async (req, res) => {
@@ -11,6 +11,7 @@ router.post('/users', async (req, res) => {
 
     try {
         await user.save()
+        welcomeEmail(user.email, user.name)
         const token = await user.genAuthToken()
         res.status(201).send({
             user,
@@ -55,6 +56,7 @@ router.delete('/users/me', auth, async (req, res) => {
 
     try {
         await req.user.delete()
+        goodbayEmail(req.user.email, req.user.name)
         res.status(200).send({
             user: req.user,
             message: 'You are deleted.'
@@ -83,7 +85,7 @@ const avatar = upload.single('avatar')
 
 //adding avatar img to user
 router.post('/users/me/avatar', auth, avatar, async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer()
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
     res.status(200).send({ message: 'Avatar is added.' })

@@ -2,10 +2,11 @@ const express = require('express')
 require('./db/dbconnect')
 const bodyParser = require('body-parser')
 
+
 const app = express()
 
 //PORT 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 
 //parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
