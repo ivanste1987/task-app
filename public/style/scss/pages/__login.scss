@@ -6,6 +6,7 @@
     height: 100vh;
     background-image: url("../../images/taskapp.jpg");
     background-size: cover;
+    background-attachment: fixed;
 }
 #login-page-container {
     height: 100%;
@@ -38,15 +39,17 @@
             background: $dark;
             border-radius: 50px;
 
-            box-shadow: 1px 1px 10px $bluish, 0px 0px 60px $bluish;
+            // box-shadow: 0px -5px 20px -10px $bluish, 0px 5px 20px -10px $bluish, 5px 0px 20px -10px $green,
+            //     -5px 0px 20px -10px $green;
             padding: 25px;
             width: auto;
             height: 450px;
             overflow: hidden;
+            animation: pulse 4s infinite alternate;
 
             #login-form,
             #singup-form {
-                @include trasition(transform 0.35s ease);
+                @include transition(transform 0.35s ease);
 
                 text-align: center;
                 margin: 0px auto;
@@ -101,4 +104,31 @@
 }
 .change {
     transform: translateY(-100%);
+}
+@keyframes pulse {
+    0% {
+        box-shadow: 0px -5px 20px -10px $bluish, //top
+                    0px 5px 20px -10px $white, //bottom
+                    5px 0px 20px -10px $green, //right
+                    -5px 0px 20px -10px $bluish; //left
+    }
+   25% {
+        box-shadow: 0px -5px 20px -10px $bluish, //top
+                    0px 5px 20px -10px $bluish, //bottom
+                    5px 0px 20px -10px $white, //right
+                    -5px 0px 20px -10px $green; //left
+    }
+    50% {
+        box-shadow: 0px -5px 20px -10px $green, //top
+                    0px 5px 20px -10px $bluish, //bottom
+                    5px 0px 20px -10px $bluish, //right
+                    -5px 0px 20px -10px $white; //left
+    }
+    100% {
+        box-shadow: 0px -5px 20px -10px $white, //top
+                    0px 5px 20px -10px $green, //bottom
+                    5px 0px 20px -10px $bluish, //right
+                    -5px 0px 20px -10px $bluish; //left
+    }
+    
 }
