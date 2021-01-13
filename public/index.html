@@ -5,6 +5,7 @@
     <title>Task APP</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/jpg" href="images/ico.png">
     <!--Style-->
     <link href="style/css/style.css" rel="stylesheet">
     <!--Style Bootstrap-->
@@ -29,7 +30,51 @@
 </head>
 
 <body>
+    <div id="login-bg" class="container-fluid">
+        <div class="row h-100">
+            <div class="col">
+            </div>
+            <div class="col">
+                <div id="login-page-container" class="container">
+                    <div id="login-page" class="col">
+                        <div id="button-container">
+                            <button class="toggle" onclick="toggle()">Sing In</button>
+                            <button class="toggle" onclick="toggle()">Sing Up</button>
+                        </div>
 
+                        <div id="form-container">
+
+                            <form id='login-form'>
+                                <h2>Sing In</h2>
+                                <input type="email" required placeholder="Email">
+                                <input type="password" required placeholder="Password">
+                                <div class="checkbox">
+                                    <input type="checkbox">&nbsp;<label> Remeber me</label>
+                                </div>
+                                
+                                    <input type="submit" value="Sing In">
+                                
+                                
+                            </form>
+
+                            <form id='singup-form'>
+                                <h2>Sing Up</h2>
+                                <input type="text" required placeholder="Your full name">
+                                <input type="text" placeholder="How old are you">
+                                <input type="email" required placeholder="Enter your email here">
+                                <input type="password" required placeholder="Create your password">
+                                <input type="submit" value="Sing Up">
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+    <script src="js/style.js"></script>
 </body>
 
 </html>
