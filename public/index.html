@@ -27,12 +27,15 @@
         rel="stylesheet">
     <!--Fontawesome icons-->
     <script src="https://kit.fontawesome.com/8cfd469abc.js" crossorigin="anonymous"></script>
+    <!--Axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
     <div id="login-bg" class="container-fluid">
         <div class="row h-100">
-            <div class="col">
+            <div id="welcomeContainer" class="col">
+                <div id="welcomeMsg"></div>
             </div>
             <div class="col">
                 <div id="login-page-container" class="container">
@@ -45,25 +48,22 @@
 
                         <div id="form-container">
 
-                            <form id='login-form'>
+                            <form id='login-form' >
                                 <h2>Sing In</h2>
-                                <input type="email" required placeholder="Email">
-                                <input type="password" required placeholder="Password">
+                                <input type="email" required placeholder="Email" id="user-email"> 
+                                <input type="password" required placeholder="Password" id="user-password">
                                 <div class="checkbox">
                                     <input type="checkbox">&nbsp;<label> Remeber me</label>
                                 </div>
-                                
-                                    <input type="submit" value="Sing In">
-                                
-                                
+                                <input type="submit" value="Sing In">
                             </form>
 
                             <form id='singup-form'>
                                 <h2>Sing Up</h2>
-                                <input type="text" required placeholder="Your full name">
-                                <input type="text" placeholder="How old are you">
-                                <input type="email" required placeholder="Enter your email here">
-                                <input type="password" required placeholder="Create your password">
+                                <input type="text" required placeholder="Your full name" id="name">
+                                <input type="text" placeholder="How old are you" id="age">
+                                <input type="email" required placeholder="Enter your email here" id="email">
+                                <input type="password" required placeholder="Create your password" id="password">
                                 <input type="submit" value="Sing Up">
                             </form>
 
@@ -74,6 +74,7 @@
             </div>
         </div>
     </div>
+    
     <script src="js/login.js"></script>
     <script src="js/style.js"></script>
 </body>

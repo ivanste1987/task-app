@@ -5,6 +5,7 @@
 #login-bg {
     height: 100vh;
     background-image: url("../../images/taskapp.jpg");
+    background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -105,30 +106,53 @@
 .change {
     transform: translateY(-100%);
 }
+#welcomeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #welcomeMsg {
+        width: 50%;
+        height: auto;
+        padding: 25px;
+        visibility: hidden;
+    }
+}
+
 @keyframes pulse {
     0% {
-        box-shadow: 0px -5px 20px -10px $bluish, //top
-                    0px 5px 20px -10px $white, //bottom
-                    5px 0px 20px -10px $green, //right
-                    -5px 0px 20px -10px $bluish; //left
+        box-shadow: 0px -5px 20px -10px $bluish,
+            //top
+            0px 5px 20px -10px $white,
+            //bottom
+            5px 0px 20px -10px $green,
+            //right
+            -5px 0px 20px -10px $orange; //left
     }
-   25% {
-        box-shadow: 0px -5px 20px -10px $bluish, //top
-                    0px 5px 20px -10px $bluish, //bottom
-                    5px 0px 20px -10px $white, //right
-                    -5px 0px 20px -10px $green; //left
+    25% {
+        box-shadow: 0px -5px 20px -10px $orange,
+            //top
+            0px 5px 20px -10px $bluish,
+            //bottom
+            5px 0px 20px -10px $white,
+            //right
+            -5px 0px 20px -10px $green; //left
     }
     50% {
-        box-shadow: 0px -5px 20px -10px $green, //top
-                    0px 5px 20px -10px $bluish, //bottom
-                    5px 0px 20px -10px $bluish, //right
-                    -5px 0px 20px -10px $white; //left
+        box-shadow: 0px -5px 20px -10px $green,
+            //top
+            0px 5px 20px -10px $orange,
+            //bottom
+            5px 0px 20px -10px $bluish,
+            //right
+            -5px 0px 20px -10px $white; //left
     }
     100% {
-        box-shadow: 0px -5px 20px -10px $white, //top
-                    0px 5px 20px -10px $green, //bottom
-                    5px 0px 20px -10px $bluish, //right
-                    -5px 0px 20px -10px $bluish; //left
+        box-shadow: 0px -5px 20px -10px $white,
+            //top
+            0px 5px 20px -10px $green,
+            //bottom
+            5px 0px 20px -10px $orange,
+            //right
+            -5px 0px 20px -10px $bluish; //left
     }
-    
 }

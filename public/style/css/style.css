@@ -1,6 +1,7 @@
 #login-bg {
   height: 100vh;
   background-image: url("../../images/taskapp.jpg");
+  background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed; }
 
@@ -89,15 +90,25 @@
 .change {
   transform: translateY(-100%); }
 
+#welcomeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  #welcomeContainer #welcomeMsg {
+    width: 50%;
+    height: auto;
+    padding: 25px;
+    visibility: hidden; }
+
 @keyframes pulse {
   0% {
-    box-shadow: 0px -5px 20px -10px #678384, 0px 5px 20px -10px #fefefe, 5px 0px 20px -10px #638C7F, -5px 0px 20px -10px #678384; }
+    box-shadow: 0px -5px 20px -10px #678384, 0px 5px 20px -10px #fefefe, 5px 0px 20px -10px #638C7F, -5px 0px 20px -10px #FF4900; }
   25% {
-    box-shadow: 0px -5px 20px -10px #678384, 0px 5px 20px -10px #678384, 5px 0px 20px -10px #fefefe, -5px 0px 20px -10px #638C7F; }
+    box-shadow: 0px -5px 20px -10px #FF4900, 0px 5px 20px -10px #678384, 5px 0px 20px -10px #fefefe, -5px 0px 20px -10px #638C7F; }
   50% {
-    box-shadow: 0px -5px 20px -10px #638C7F, 0px 5px 20px -10px #678384, 5px 0px 20px -10px #678384, -5px 0px 20px -10px #fefefe; }
+    box-shadow: 0px -5px 20px -10px #638C7F, 0px 5px 20px -10px #FF4900, 5px 0px 20px -10px #678384, -5px 0px 20px -10px #fefefe; }
   100% {
-    box-shadow: 0px -5px 20px -10px #fefefe, 0px 5px 20px -10px #638C7F, 5px 0px 20px -10px #678384, -5px 0px 20px -10px #678384; } }
+    box-shadow: 0px -5px 20px -10px #fefefe, 0px 5px 20px -10px #638C7F, 5px 0px 20px -10px #FF4900, -5px 0px 20px -10px #678384; } }
 h1, h2, h3, h4, h5, h6 {
   font-family: "Cabin", sans-serif;
   color: #fefefe; }
