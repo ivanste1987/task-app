@@ -7,6 +7,7 @@ const { welcomeEmail, goodbayEmail } = require('../../email/account')
 
 //creating new user
 router.post('/users', async (req, res) => {
+   
     const user = new User(req.body)
 
     try {
@@ -14,7 +15,7 @@ router.post('/users', async (req, res) => {
         welcomeEmail(user.email, user.name)
         const token = await user.genAuthToken()
         res.status(201).send({
-            user,
+            message: `Your account has been created, please log in. Welcome ${user.name}!` ,
             token
         })
     } catch (e) {
