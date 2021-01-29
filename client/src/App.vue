@@ -1,13 +1,18 @@
 <template>
   <section>
-    <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <the-header></the-header>
     <router-view />
   </section>
 </template>
 
+<script>
+import TheHeader from './components/layout/TheHeader.vue'
+export default {
+  components:{
+    TheHeader
+  }
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

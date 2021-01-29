@@ -1,7 +1,5 @@
 <template>
-  <section>
-      <h1>Todo page</h1>
-  </section>
+  
 </template>
 
 <script>

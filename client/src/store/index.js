@@ -10,6 +10,11 @@ const store = createStore({
     userAuth: userAuth,
     userSingup: userSingup,
     tasks: tasks
+  },
+  state(){
+    return{
+      authUser: false
+    }
   }
 })
 
