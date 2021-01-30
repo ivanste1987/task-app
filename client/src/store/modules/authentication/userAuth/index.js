@@ -7,7 +7,6 @@ const userAuth = {
             token: null,
             _id: null,
             isLoggedin: false,
-            
         };
     },
     mutations: mutations,

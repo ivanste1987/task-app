@@ -1,5 +1,6 @@
-const getters = {
-
-}
-
-export default getters;
+export default {
+    getAllTasks(state){
+        console.log(state.allTasks)
+        return state.allTasks
+    }
+};

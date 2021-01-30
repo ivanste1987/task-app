@@ -4,6 +4,7 @@ const User = require('../../db/models/users')
 
 router.post('/users/login', async (req, res) => {
     console.log(req.body)
+    console.log(req.headers)
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.genAuthToken()

@@ -1,5 +1,5 @@
 <template>
-  <section v-if="this.isLoggedin">
+  <section>
     <the-header>
    <li> <router-link to="/tasks">Tasks</router-link></li>
     <li><router-link to="/profile">Profile</router-link></li>
@@ -12,12 +12,6 @@
 import TheHeader from '../components/layout/TheHeader.vue';
 export default {
   components: { TheHeader },
-  data() {
-    return {
-      isLoggedin:  this.$store.getters.isLoggedin,
-      token: this.$store.getters.token,
-    };
-  },
 };
 </script>
 

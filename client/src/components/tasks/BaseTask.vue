@@ -1,13 +1,24 @@
 <template>
   <li>
-   <input type="checkbox" name="completed" id="completed" v-bind="completed">
-   <p>{{description}}</p>
+    <input type="checkbox" id="completed" name="completed" :completed="completed" @emit="completed" />
+    <label for="checkbox">{{ completed }}</label>
+    <p>{{ description }}</p>
   </li>
 </template>
 
 <script>
 export default {
-    props:['_id','completed','description']
+  props: {
+    _id: {
+      type: Number,
+    },
+    completed: {
+      type: Boolean,
+    },
+    description: {
+      type: String,
+    },
+  },
 };
 </script>
 

@@ -1,6 +1,5 @@
 <template>
   <section>
-      <h1>Tasks page</h1>
       <list-of-tasks></list-of-tasks>
   </section>
 </template>
@@ -9,7 +8,6 @@
 import ListOfTasks from './ListOfTasks.vue'
 export default {
   components: { ListOfTasks },
-
 }
 </script>
 

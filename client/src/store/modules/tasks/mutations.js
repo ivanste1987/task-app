@@ -1,5 +1,5 @@
-const mutations = {
-
+export default {
+    getAllTasks(state, payload){
+        state.allTasks = payload
+    }
 }
-
-export default mutations;
