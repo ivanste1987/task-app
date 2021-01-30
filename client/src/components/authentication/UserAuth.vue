@@ -17,13 +17,11 @@
       />
       <button type="submit">Login</button>
     </form>
-    {{ this.authUser }}
+    {{ this.error }}
   </section>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -31,37 +29,22 @@ export default {
         email: "",
         password: "",
       },
+      error: "",
     };
   },
-  created() {
-    this.$store.getters.userExist;
-    console.log(this.$store.getters.userExist);
-  },
-  computed: {
-    authUser() {
-      const x = this.$store.state.authUser;
-      console.log(x);
-      return x;
-    },
-  },
-
   methods: {
-    login() {
-      axios
-        .post("http://localhost:3000/users/login", { ...this.user })
-        .then((response) => {
-          console.log(response);
-          localStorage.setItem("user", response.data.token);
-
-          let user = localStorage.getItem("user");
-
-          if (user && user.token) {
-            return { Authorization: "Bearer " + user.token };
-          } else {
-            return {};
-          }
-        });
+    async login() {
+      try {
+        await this.$store.dispatch("login", { ...this.user });
+        this.$router.replace("/todo");
+      } catch (err) {
+        if(err){
+          this.error = "Your email or password is wrong, please try again.";
+        }
+        
+      }
     },
+    
   },
 };
 </script>

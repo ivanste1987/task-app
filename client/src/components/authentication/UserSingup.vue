@@ -32,12 +32,20 @@
       />
       <button type="submit">Create user</button>
     </form>
-    <h1>{{ this.validationMessage }}</h1>
+    <teleport to="body">
+      <the-modal v-if="close" >
+        {{this.validationMessage}}
+        <button @click="closeModal">Okey</button>
+      </the-modal>
+    </teleport>
   </section>
 </template>
 
 <script>
+import TheModal from "../layout/TheModal.vue";
+
 export default {
+  components: { TheModal },
   data() {
     return {
       user: {
@@ -47,16 +55,21 @@ export default {
         age: "",
       },
       validForm: null,
+      close: false,
     };
   },
-  computed:{
-    validationMessage(){
-        return this.$store.getters.sendMessage.userError
-    }
+  computed: {
+    validationMessage() {
+      return this.$store.getters.sendMessage;
+    },
   },
   methods: {
     createUser() {
-        this.$store.dispatch("createUser", this.user);
+      this.close = true;
+      this.$store.dispatch("createUser", this.user);
+    },
+    closeModal() {
+      this.close = false;
     },
   },
 };

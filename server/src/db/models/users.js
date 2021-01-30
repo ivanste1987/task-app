@@ -59,6 +59,18 @@ userSchema.virtual('tasks', {
     localField: '_id',
     foreignField: 'owner'
 })
+
+//Sending back data to user
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userData = user.toObject()
+    //do not send to user
+    delete userData.password
+    delete userData.avatar
+    delete userData.tokens
+
+    return userData
+}
 //seting user with jwt token
 userSchema.methods.genAuthToken = async function () {
 
@@ -75,19 +87,6 @@ userSchema.methods.genAuthToken = async function () {
 
     return token
 }
-//Sending back data to user
-userSchema.methods.toJSON = function () {
-    const user = this
-    const userData = user.toObject()
-    //do not send to user
-    delete userData.password
-    delete userData.avatar
-    delete userData._id
-    delete userData.__v
-
-    return userData
-}
-
 //auth of user password
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({
@@ -106,12 +105,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
     return user
 }
-//delete all tasks related with deleted user
-userSchema.pre('remove', async function(next){
-    const user = this
-    await Task.deleteMany({owner: user._id})
-    next()
-})
 
 // Hash the plain text password before saving
 userSchema.pre('save', async function (next) {
@@ -123,6 +116,13 @@ userSchema.pre('save', async function (next) {
 
     next()
 })
+//delete all tasks related with deleted user
+userSchema.pre('remove', async function(next){
+    const user = this
+    await Task.deleteMany({owner: user._id})
+    next()
+})
+
 
 
 const User = mongoose.model('User', userSchema)

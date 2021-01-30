@@ -1,46 +1,16 @@
-import axios from "axios";
+
+import mutations from './mutations.js';
+import actions from './actions.js';
+import getters from './getters.js';
 const userSingup = {
     state() {
         return {
             user: {},
-            message: { userError: '' }
+            message: ""
         };
     },
-    mutations: {
-        createUser(state, payload) {
-            state.user = payload;
-        },
-        createMessage(state, payload) {
-            state.message.userError = payload
-        }
-    },
-    actions: {
-        createUser(context, payload) {
-            const newUser = {
-                name: payload.name,
-                email: payload.email,
-                password: payload.password,
-                age: payload.age,
-            };
-            axios.post("http://localhost:3000/users", newUser)
-                .then((response) => {
-                    if (response.status === 201) {
-                        context.commit('createMessage', response.data.message)
-                    }
-                }).catch(error => {
-                    if (error) {
-                        context.commit('createMessage', error.response.data.message)
-                    }
-                })
-            context.commit('createUser', {
-                ...newUser
-            })
-        }
-    },
-    getters: {
-        sendMessage(state) {
-            return state.message
-        }
-    }
+    mutations: mutations,
+    actions: actions,
+    getters: getters
 }
 export default userSingup;

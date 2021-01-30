@@ -1,19 +1,53 @@
 <template>
   <header>
-      <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/about">About</router-link> | 
-      <router-link to="/todo">Todo</router-link>
-    </div>
+    <ul>
+       <slot></slot>
+      <li><button @click="logout">Logout</button></li>
+      <li><button @click="logoutAll">Logout from all devices</button></li>
+    </ul>
   </header>
 </template>
 
 <script>
+//import axios from 'axios';
 export default {
-
-}
+  data() {
+    return {
+      isLoggedin: this.$store.getters.isLoggedin,
+    };
+  },
+  created() {},
+  computed: {},
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
+    logoutAll() {
+      this.$store.dispatch("logoutAll");
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
-<style>
+<style lang="scss" scoped>
+header {
+  width: 100%;
+  padding: 1rem;
+  background: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
 
+    li{
+      margin: 1rem;
+    };
+  }
+}
 </style>

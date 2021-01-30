@@ -1,30 +1,17 @@
+import actions from "./actions";
+import mutations from "./mutations";
+import getters from "./getters";
 const userAuth = {
     state() {
         return {
-            doesUserExist: false,
+            token: null,
+            _id: null,
+            isLoggedin: false,
+            
         };
     },
-    mutations: {
-        checkUser(state, payload) {
-            state.doesUserExist = payload
-        }
-    },
-    actions: {
-        checkUser(context) {
-            const user = localStorage.getItem('user');
-            if (user && user.token) {
-                context.commit('checkUser', true)
-                context.rootState.authUser = true
-            } else; {
-                context.commit('checkUser', false)
-                context.rootState.authUser = false
-            }
-        }
-    },
-    getters: {
-        userExist(state){
-            return state.doesUserExist
-        }
-    }
+    mutations: mutations,
+    actions: actions,
+    getters: getters
 }
 export default userAuth;
