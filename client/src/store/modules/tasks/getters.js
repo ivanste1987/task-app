@@ -1,6 +1,5 @@
 export default {
-    getAllTasks(state){
-        console.log(state.allTasks)
+    tasks(state) {
         return state.allTasks
     }
 };

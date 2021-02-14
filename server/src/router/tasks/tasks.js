@@ -3,11 +3,9 @@ const auth = require('../../middleware/auth')
 const Task = require('../../db/models/tasks.js')
 
 
-//creating a new task
+/*//creating a new task*/
 router.post('/tasks', auth, async (req, res) => {
-
     //const task = new Task(req.body)
-    console.log(req.body)
     const task = new Task({
         ...req.body,
         owner: req.user._id
@@ -27,10 +25,10 @@ router.post('/tasks', auth, async (req, res) => {
 
 
 })
-//reading all tasks
+/*//reading all tasks
 // GET /task?completed=true
 // GET /task?limit=?&skip=?
-// GET /task?sortBy=createdAt:desc
+// GET /task?sortBy=createdAt:desc*/
 router.get('/tasks', auth, async (req, res) => {
     const match = {}
     const sort = {}
@@ -64,7 +62,7 @@ router.get('/tasks', auth, async (req, res) => {
     }
 })
 
-//finding task by ID
+/*//finding task by ID*/
 router.get('/tasks/:id', auth, async (req, res) => {
     const _id = req.params.id
     try {
@@ -87,11 +85,11 @@ router.get('/tasks/:id', auth, async (req, res) => {
 })
 
 
-//Deleteing task from DB
+/*Deleteing task from DB*/
 router.delete('/tasks/delete/:id', auth, async (req, res) => {
     try {
         //const task = await Task.findByIdAndDelete(req.params.id)
-        const task = await Task.findByIdAndDelete({ _id: req.params.id, owner: req.user._id })
+        const task =  await Task.findByIdAndDelete({ _id: req.params.id, owner: req.user._id })
 
         if (!task) {
             return res.status(404).send({
@@ -106,10 +104,11 @@ router.delete('/tasks/delete/:id', auth, async (req, res) => {
     }
 })
 
-//update of tasks
+/*update of tasks*/
 router.patch('/tasks/update/:id', auth, async (req, res) => {
+    console.log(req.body)
     //validation of incoming request for updates values
-    const allowedUpdates = ["completed", 'description']
+    const allowedUpdates = ["completed", "description"]
     const updates = Object.keys(req.body)
     const isUpadateValid = updates.every((update) => {
         return allowedUpdates.includes(update)

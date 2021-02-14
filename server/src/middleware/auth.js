@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../db/models/users')
 
 const auth = async (req, res, next) => {
-    console.log(req.headers)
-    console.log(req.body)
+    // console.log(req.headers)
+    // console.log(req.body)
     try{
         const token = req.headers['authorization'].replace('Bearer ', '')
      

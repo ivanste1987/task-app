@@ -1,7 +1,7 @@
 <template>
   <header>
     <ul>
-       <slot></slot>
+      <slot></slot>
       <li><button @click="logout">Logout</button></li>
       <li><button @click="logoutAll">Logout from all devices</button></li>
     </ul>
@@ -20,12 +20,12 @@ export default {
   computed: {},
   methods: {
     logout() {
-      this.$store.dispatch("logout");
       this.$router.push("/");
+      this.$store.dispatch("logout");
     },
     logoutAll() {
       this.$store.dispatch("logoutAll");
-      this.$router.push("/");
+      this.$router.replace("/");
     },
   },
 };
@@ -45,9 +45,9 @@ header {
     align-items: center;
     list-style-type: none;
 
-    li{
+    li {
       margin: 1rem;
-    };
+    }
   }
 }
 </style>

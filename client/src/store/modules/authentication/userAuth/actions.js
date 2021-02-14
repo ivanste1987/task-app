@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-    checkToken(context, payload) {
+    checkToken(payload) {
         payload = localStorage.getItem('user')
         return payload
     },
@@ -11,78 +11,73 @@ export default {
             email: payload.email,
             password: payload.password,
         }
-        const response = await axios.post("http://localhost:3000/users/login", { ...user })
-        const responseData = await response;
-
-        if (response.status !== 200) {
-            const error = new Error(
-                responseData.message || 'Failed to authenticate. Check your login data.'
-            );
-            throw error;
-        }
-        context.commit('setUser', {
-            _id: responseData.data.user._id,
-            token: responseData.data.token,
-            isLoggedin: true
-        })
-
-        localStorage.setItem("user", responseData.data.token);
-        localStorage.setItem('id', responseData.data.user._id)
-
-
+        await axios.post("http://localhost:3000/users/login", { ...user })
+            .then((response) => {
+                if (response.status !== 200) {
+                    const error = new Error(
+                        response.message || 'Failed to authenticate. Check your login data.'
+                    );
+                    throw error;
+                } else {
+                    context.commit('setUser', {
+                        _id: response.data.user._id,
+                        token: response.data.token,
+                        isLoggedin: true
+                    })
+                    localStorage.setItem("user", response.data.token);
+                    localStorage.setItem('id', response.data.user._id)
+                }
+            }).catch((error) => {
+                if (error) throw error
+            })
     },
 
-    async logout(context) {
-
+    logout(context) {
         const reqAuth = {
             headers: {
                 'Authorization': `Bearer ${context.state.token}`
             }
         }
 
-        const response = await axios.post("http://localhost:3000/users/logout", {}, reqAuth)
-        const responseData = await response;
+        axios.post("http://localhost:3000/users/logout", {}, reqAuth)
+            .then((response) => {
+                if (response.status !== 200) {
+                    const error = new Error(response.meesage || 'Something went wrong, please try again')
+                    throw error
+                }
+            })
 
-        if (response.status !== 200) {
-            const error = new Error(responseData.meesage || 'Something went wrong, please try again')
-            throw error
-        }
-
+        context.commit('setUser', {
+            _id: null,
+            token: null,
+            isLoggedin: false
+        })
         localStorage.removeItem('user')
         localStorage.removeItem('id')
 
-        context.commit('setUser', {
-            _id: null,
-            token: null,
-            isLoggedin: false
-        })
-
-
     },
-    async logoutAll(context) {
+    logoutAll(context) {
         const reqAuth = {
             headers: {
                 'Authorization': `Bearer ${context.state.token}`
             }
         }
-        
-        const response = await axios.post("http://localhost:3000/users/logoutAll", {}, reqAuth)
+        axios.post("http://localhost:3000/users/logoutAll", {}, reqAuth)
+            .then((response) => {
+                if (response.status !== 200) {
+                    const error = new Error(response.meesage || 'Something went wrong, please try again')
+                    throw error
+                }
+            })
 
-        const responseData = await response;
-
-        if (response.status !== 200) {
-            const error = new Error(responseData.meesage || 'Something went wrong, please try again')
-            throw error
-        }
-
-
-        localStorage.removeItem('user');
-        localStorage.removeItem('id');
         context.commit('setUser', {
             _id: null,
             token: null,
             isLoggedin: false
         })
+
+        localStorage.removeItem('user');
+        localStorage.removeItem('id');
 
     },
     stayLoggedin(context) {

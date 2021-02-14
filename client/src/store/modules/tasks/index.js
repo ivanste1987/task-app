@@ -4,14 +4,15 @@ import mutations from './mutations.js';
 
 
 const tasks = {
-    state() {
-        return {
-          allTasks: [],
-        };
-    },
-    actions: actions,
-    mutations: mutations,
-    getters: getters
+  state() {
+    return {
+      allTasks: [],
+      task: {}
+    };
+  },
+  mutations: mutations,
+  actions: actions,
+  getters: getters
 }
 
 export default tasks;

@@ -11,7 +11,7 @@ const PORT = process.env.PORT
 
 /* Cors */
 app.use(cors())
-//parse application/x-www-form-urlencoded
+/*parse application/x-www-form-urlencoded*/
 app.use(bodyParser.urlencoded({
     extended: false
 }))
