@@ -18,7 +18,7 @@ router.post('/users', async (req, res) => {
             message: `Your account has been created, please log in. Welcome ${user.name}!`
         })
     } catch (error) {
-        res.status(400).send({message: error._message})
+        res.status(400).send({ message: error._message })
     }
 })
 
@@ -29,9 +29,9 @@ router.get('/users/profile', auth, async (req, res) => {
 
 //update user
 router.patch('/users/update/me', auth, async (req, res) => {
-
+    console.log(req.body)
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const allowedUpdates = ['name', 'age', 'password', 'email']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
@@ -72,7 +72,7 @@ router.delete('/users/me', auth, async (req, res) => {
 //Upload image
 const upload = multer({
     limits: {
-        fileSize: 1000000
+        fileSize: 10000000
     },
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
@@ -85,31 +85,37 @@ const avatar = upload.single('avatar')
 
 //adding avatar img to user
 router.post('/users/me/avatar', auth, avatar, async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    console.log(req.file)
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
     req.user.avatar = buffer
     await req.user.save()
     res.status(200).send({ message: 'Avatar is added.' })
 }, (error, req, res, next) => {
-    res.status(400).send({ error: error.message })
+    res.status(400).send({
+        error: "Something went wront, please try again later.",
+        err: error.message
+    })
 })
 
 //deleting a user avatar img
 router.delete('/users/me/avatar', auth, async (req, res) => {
     req.user.avatar = undefined
     await req.user.save()
-    res.send()
+    res.send({ message: 'Youre picture is deleted' })
 })
 
 //geting user avatar img
 router.get('/users/:id/avatar', async (req, res) => {
+
     try {
         const user = await User.findById(req.params.id)
 
         if (!user || !user.avatar) {
-            res.send()
+            res.status(204).send({ message: "Please add Your Avatar" })
+            return
         }
 
-        res.set('Content-Type', 'image/png')
+        res.set('Content-Type', 'image/jpg')
         res.send(user.avatar)
 
     } catch (error) {

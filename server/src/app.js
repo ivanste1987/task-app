@@ -17,12 +17,8 @@ app.use(bodyParser.urlencoded({
 }))
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(express.json())
-
-
-//Middlewere Auth
-
 
 //Tasks router
 const taskRouter = require('./router/tasks/tasks.js')

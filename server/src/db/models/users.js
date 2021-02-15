@@ -64,11 +64,8 @@ userSchema.virtual('tasks', {
 userSchema.methods.toJSON = function () {
     const user = this
     const userData = user.toObject()
-    //do not send to user
-    delete userData.password
-    delete userData.avatar
-    delete userData.tokens
-
+    
+    
     return userData
 }
 //seting user with jwt token
