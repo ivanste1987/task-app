@@ -18,7 +18,11 @@ router.post('/users', async (req, res) => {
             message: `Your account has been created, please log in. Welcome ${user.name}!`
         })
     } catch (error) {
-        res.status(400).send({ message: error._message })
+        console.log(error)
+        if (error.name === 'MongoError') {
+            res.status(409).send({ message: "Opsss, email already exist." })
+        } else { res.status(400).send({ message: error }) }
+
     }
 })
 

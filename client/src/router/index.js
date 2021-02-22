@@ -39,7 +39,7 @@ router.beforeEach(function (to, _, next) {
   if (to.meta.auth && !store.getters.isLoggedin) {
     next('/')
   } else if (to.meta.unauth && store.getters.isLoggedin) {
-    next('/todo')
+    next('/tasks')
   } else {
     next()
   }

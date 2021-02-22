@@ -10,6 +10,9 @@ export default {
         }
         axios.get("http://localhost:3000/tasks", authUser)
             .then((response) => {
+               
+
+                context.commit('setCompletedTasks', response.data)
                 context.commit('getAllTasks', response.data.reverse())
             }).catch((error) => {
                 console.log(error)

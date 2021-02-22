@@ -7,7 +7,8 @@ const tasks = {
   state() {
     return {
       allTasks: [],
-      task: {}
+      task: {},
+      completedTasks: 0
     };
   },
   mutations: mutations,

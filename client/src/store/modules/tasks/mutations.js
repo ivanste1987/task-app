@@ -17,4 +17,13 @@ export default {
         const index = state.allTasks.findIndex(t => t._id === id)
         state.allTasks[index].completed = completed;
     },
+    setCompletedTasks(state, payload){
+        let counter = 0;
+        payload.forEach(element => {
+            if(element.completed == true){
+                counter++
+            }
+        });
+        state.completedTasks = counter;
+    }
 }

@@ -1,23 +1,32 @@
 <template>
-  <section>
-    <form @submit.prevent="login">
-      <input
-        type="email"
-        name="email"
-        id="userEmail"
-        placeholder="email"
-        v-model="this.user.email"
-      />
-      <input
-        type="password"
-        name="password"
-        id="userPassword"
-        placeholder="password"
-        v-model="this.user.password"
-      />
-      <button type="submit">Login</button>
+  <section class="singin-singup sing-in-form">
+    <form @submit.prevent="login" autocomplete="off">
+      <h2>Sign in</h2>
+      <div class="input-field">
+        <i class="fas fa-at"></i
+        ><input
+          type="email"
+          name="email"
+          id="userEmail"
+          placeholder="email"
+          v-model="this.user.email"
+          @focus="this.error = ''"
+        />
+      </div>
+      <div class="input-field">
+        <i class="fas fa-unlock"></i
+        ><input
+          type="password"
+          name="password"
+          id="userPassword"
+          placeholder="password"
+          v-model="this.user.password"
+          @focus="this.error = ''"
+        />
+      </div>
+      <p class="error">{{ this.error }}</p>
+      <button type="submit" class="btn">Sing in</button>
     </form>
-    {{ this.error }}
   </section>
 </template>
 
@@ -35,19 +44,20 @@ export default {
   methods: {
     async login() {
       try {
-        await this.$store.dispatch("login", { ...this.user });
-        this.$router.replace("/todo");
+        await this.$store.dispatch("login", this.user);
+        this.$router.replace("/tasks");
       } catch (err) {
-        if(err){
+        if (err) {
           this.error = "Your email or password is wrong, please try again.";
         }
-        
       }
     },
-    
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+.error {
+  color: red;
+}
 </style>
