@@ -4,11 +4,11 @@
       <div class="modalFile">
         <img
           :src="userImage"
-          v-if="provideUser.avatar"
-          alt="Avatar"
+          alt="avatar"
           class="userAvatar"
+          @error="setAltImg"
         />
-        <div class="fileHolder" v-if="!provideUser.avatar">
+        <div class="fileHolder">
           <input type="file" @change="fileChange" class="fileInput" />
         </div>
       </div>
@@ -32,7 +32,9 @@
         <div class="task-container">
           <div class="col">
             <h5>Active Tasks</h5>
-            <h1><b>{{ tasks.length - tasksCompleted }}</b></h1>
+            <h1>
+              <b>{{ tasks.length - tasksCompleted }}</b>
+            </h1>
           </div>
           <div class="col">
             <h5>Finished Tasks</h5>
@@ -51,7 +53,9 @@
       <div class="userProgress">
         <div class="progress">
           <h5>Progress:</h5>
-          <progress id="file" :max="tasks.length" :value="tasksCompleted">70%</progress>
+          <progress id="file" :max="tasks.length" :value="tasksCompleted">
+            70%
+          </progress>
         </div>
       </div>
     </div>
@@ -91,7 +95,6 @@ export default {
   created() {
     this.getUser();
     this.getTasks();
-    this.setTasks();
   },
 
   computed: {
@@ -101,7 +104,7 @@ export default {
       "userImage",
       "responseMessage",
       "tasks",
-      "tasksCompleted"
+      "tasksCompleted",
     ]),
     validationMessage() {
       return this.$store.getters.responseMessage;
@@ -114,12 +117,12 @@ export default {
     getTasks() {
       this.$store.dispatch("allTasks");
     },
-    setTasks() {
-
-    },
     fileChange(event) {
       this.selectedFile = event.target.files[0];
       this.addAvatar();
+    },
+    setAltImg(event) {
+      event.target.src = "https://via.placeholder.com/150";
     },
     addAvatar() {
       this.close = true;
@@ -214,6 +217,7 @@ export default {
         background-size: 50px;
         background-repeat: no-repeat;
         background-position: center;
+        opacity: 0;
         transition: opacity 0.5s ease-in-out;
       }
       .fileInput {
@@ -221,7 +225,7 @@ export default {
         border: 0.3rem solid #fff;
       }
       &:hover .fileHolder {
-        opacity: 0;
+        opacity: 1;
       }
     }
 
@@ -249,7 +253,7 @@ export default {
       flex-wrap: wrap;
       width: 100%;
       height: auto;
-      @media screen and (max-width) {
+      @media screen and (max-width:630px) {
         flex-direction: column;
       }
       .task-container,

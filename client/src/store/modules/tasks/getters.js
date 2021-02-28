@@ -4,5 +4,8 @@ export default {
     },
     tasksCompleted(state){
         return state.completedTasks
-    }
+    },
+    taskModalMessage(state) {
+        return state.taskMessage
+    },
 };

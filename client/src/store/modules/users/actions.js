@@ -18,10 +18,30 @@ export default {
                 context.commit('userImage',
                     `http://localhost:3000/users/${response.data._id}/avatar`)
 
+                
+
+
+
             }).catch((error) => {
                 context.commit("responseMessage", error.message);
             })
     },
+    // getUserImage(context) {
+    //     const user = localStorage.getItem('id');
+
+    //     axios.get(`http://localhost:3000/users/${user}/avatar`).then((response) => {
+    //         console.log(response)
+
+    //         if (response.status === 204) {
+    //             context.commit('userImage', 'https://via.placeholder.com/250');
+    //         } else {
+    //             context.commit('userImage',
+    //                 `http://localhost:3000/users/${response.data._id}/avatar`);
+    //         }
+
+
+    //     })
+    // },
     addUserImage(context, payload) {
         const token = context.rootGetters.token;
         const authUser = {
@@ -34,6 +54,7 @@ export default {
             .then((response) => {
                 context.commit('userImage',
                     `http://localhost:3000/users/${response.data._id}/avatar`)
+
                 context.commit("responseMessage", response.data.message);
                 context.dispatch('getUser')
             })
@@ -84,20 +105,20 @@ export default {
                 }
             });
     },
-    deleteProfile(context){
+    deleteProfile(context) {
         const token = context.rootGetters.token;
         const authUser = {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         }
-        axios.delete('http://localhost:3000/users/me', authUser).then(()=> {
+        axios.delete('http://localhost:3000/users/me', authUser).then(() => {
             context.commit('setUser', {
                 _id: null,
                 token: null,
                 isLoggedin: false
             })
-    
+
             localStorage.removeItem('user');
             localStorage.removeItem('id');
         })

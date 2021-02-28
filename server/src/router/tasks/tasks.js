@@ -14,11 +14,11 @@ router.post('/tasks', auth, async (req, res) => {
     try {
         await task.save()
         res.status(201).send({
-            task
+            message: 'Task added.'
         })
     } catch (error) {
         res.status(500).send({
-            error: error
+            error: "Something went wrong, please try again."
         })
     }
 
@@ -97,10 +97,12 @@ router.delete('/tasks/delete/:id', auth, async (req, res) => {
             })
         }
         res.status(201).send({
-            deleted_task: task
+            message: "Task is deleted"
         })
-    } catch (e) {
-        res.status(500).send(e)
+    } catch (error) {
+        res.status(500).send({
+            message: "Something went wrong, try again later."
+        })
     }
 })
 
@@ -124,7 +126,7 @@ router.patch('/tasks/update/:id', auth, async (req, res) => {
 
         if (!task) {
             return res.status(400).send({
-                message: 'Something went wrong'
+                error: 'Something went wrong'
             })
         }
 
@@ -135,11 +137,11 @@ router.patch('/tasks/update/:id', auth, async (req, res) => {
         await task.save()
 
         res.status(200).send({
-            update: task
+            message: 'Task edited.'
         })
     } catch (error) {
         res.status(500).send({
-            error: "Server errore"
+            error: "Something went wrong, please try again"
         })
     }
 })

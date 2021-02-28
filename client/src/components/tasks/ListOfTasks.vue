@@ -11,7 +11,9 @@
             v-model="this.description"
             @focus="this.description = ''"
           />
-          <button type="submit"><i class="fas fa-plus-circle fa-2x"></i></button>
+          <button type="submit" class="submit">
+            <i class="fas fa-plus-circle fa-2x"></i>
+          </button>
         </div>
       </form>
     </div>
@@ -27,32 +29,51 @@
         @update-task="update"
       ></task>
     </ul>
-  </div >
+
+    <transition>
+      <teleport to="#app">
+        <the-modal v-if="modalShow" :class="modalShow ? 'show' : ''">
+          <p>{{ this.validationMessage }}</p>
+          <button @click="closeModal" class="close-btn">
+            <i class="fas fa-times-circle fa-lg"></i>
+          </button>
+        </the-modal>
+      </teleport>
+    </transition>
+  </div>
 </template>
 
 <script>
 import Task from "./Task.vue";
+import TheModal from "../layout/TheModal";
 import { mapGetters } from "vuex";
+
 export default {
   components: {
     Task,
+    TheModal,
   },
   data() {
     return {
       description: null,
+      modalShow: false,
     };
   },
   created() {
     this.getAllTasks();
   },
   computed: {
-    ...mapGetters(["tasks"]),
+    ...mapGetters(["tasks", "taskModalMessage"]),
+    validationMessage() {
+      return this.$store.getters.taskModalMessage;
+    },
   },
   methods: {
     getAllTasks() {
       this.$store.dispatch("allTasks");
     },
     addTask() {
+      this.modalShow = true;
       this.task = {
         description: this.description,
       };
@@ -61,14 +82,20 @@ export default {
       this.getAllTasks();
     },
     deleteTask(id) {
+      this.modalShow = true;
       this.$store.dispatch("delete", id);
     },
     update(id, description) {
+      // try {
+      this.modalShow = true;
       const payload = {
         id: id,
         description: description,
       };
       this.$store.dispatch("update", payload);
+      // } catch (error) {
+      //   if (error) throw error;
+      // }
     },
     changeStatus(id, completed) {
       const payload = {
@@ -76,6 +103,9 @@ export default {
         completed: !completed,
       };
       this.$store.dispatch("completed", payload);
+    },
+    closeModal() {
+      this.modalShow = !this.modalShow;
     },
   },
 };
@@ -101,16 +131,16 @@ export default {
       display: grid;
       grid-template-columns: 85% 15%;
       padding: 0 0.4rem;
-       box-shadow: 0px 0px 5px 2px #ccc;
-      button {
+      box-shadow: 0px 0px 5px 2px #ccc;
+      .submit {
         text-align: center;
         border: none;
         outline: none;
         background: transparent;
-        color:  #61a3fa;
+        color: #61a3fa;
         transition: color 0.35s ease-in-out;
-        &:hover{
-          color:#78b8ff;
+        &:hover {
+          color: #78b8ff;
           cursor: pointer;
         }
       }
@@ -126,7 +156,7 @@ export default {
           color: #aaaaaa;
           font-weight: 400;
         }
-        &:focus{
+        &:focus {
           background: transparent;
         }
       }

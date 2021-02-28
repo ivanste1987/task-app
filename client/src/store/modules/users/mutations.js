@@ -6,7 +6,7 @@ export default {
         state.token = payload
     },
     userImage(state, payload) {
-        state.imagePath = payload
+            state.imagePath = payload
     },
     responseMessage(state, payload){
         state.message = payload

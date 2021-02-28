@@ -8,7 +8,8 @@ const tasks = {
     return {
       allTasks: [],
       task: {},
-      completedTasks: 0
+      completedTasks: 0,
+      taskMessage: null
     };
   },
   mutations: mutations,

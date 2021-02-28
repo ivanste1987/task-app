@@ -1,10 +1,10 @@
 <template>
-  <header :class="show ? 'showNav' : ''">
+  <header :class="show ? 'showNav' : 'hiddeNav'">
     <button @click="showNav" class="navBtn">
       <i class="fas fa-bars fa-2x"></i>
     </button>
-    <figure class="avatar">
-      <img :src="userImage" alt="Avatar" />
+    <figure class="avatar" >
+      <img :src="userImage" alt="Avatar" @error="setAltImg"/>
       <figcaption>{{ provideUser.name }}</figcaption>
     </figure>
     <ul class="router-links">
@@ -39,6 +39,7 @@ export default {
     return {
       isLoggedin: this.$store.getters.isLoggedin,
       show: false,
+      displayImage: false
     };
   },
   created() {
@@ -46,10 +47,14 @@ export default {
   },
   computed: {
     ...mapGetters(["provideUser", "userImage"]),
+    
   },
   methods: {
     getUser() {
       this.$store.dispatch("getUser");
+    },
+    setAltImg(event) {
+      event.target.src = "https://via.placeholder.com/150";
     },
     logout() {
       this.$router.push("/");
@@ -174,6 +179,17 @@ header {
   }
   100% {
     transform: translateX(0);
+  }
+}
+.hiddeNav {
+  animation: toggleNavBack 0.5s ease forwards;
+}
+@keyframes toggleNavBack {
+  0% {
+    transform: translateX(0rem);
+  }
+  100% {
+    transform: translateX(-12rem);
   }
 }
 </style>

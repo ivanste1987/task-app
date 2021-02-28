@@ -91,4 +91,7 @@ strong{
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
 }
+img{
+  color: transparent
+}
 </style>

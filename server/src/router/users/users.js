@@ -105,7 +105,10 @@ router.post('/users/me/avatar', auth, avatar, async (req, res) => {
 router.delete('/users/me/avatar', auth, async (req, res) => {
     req.user.avatar = undefined
     await req.user.save()
-    res.send({ message: 'Youre picture is deleted' })
+    res.send({
+        message: 'Youre picture is deleted',
+        user: req.user
+    })
 })
 
 //geting user avatar img
@@ -115,7 +118,7 @@ router.get('/users/:id/avatar', async (req, res) => {
         const user = await User.findById(req.params.id)
 
         if (!user || !user.avatar) {
-            res.status(204).send({ message: "Please add Your Avatar" })
+            res.status(204).send(user.id)
             return
         }
 

@@ -25,5 +25,8 @@ export default {
             }
         });
         state.completedTasks = counter;
-    }
+    },
+    setMessage(state, payload){
+        state.taskMessage = payload
+    },
 }

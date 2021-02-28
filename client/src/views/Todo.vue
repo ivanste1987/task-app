@@ -3,7 +3,7 @@
     <the-header @toggle-nav="toggleNav"></the-header>
     <router-view
       id="todos-router"
-      :class="!showNav ? 'showNavRouter' : ''"
+      :class="!showNav ? 'showNavRouter' : 'hiddeNavRouter'"
     ></router-view>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
   max-width: 100%;
   width: 100%;
   height: auto;
-  overflow: hidden;
+  overflow-x: hidden;
   display: flex;
   z-index: 1;
   margin: 0 auto;
@@ -38,22 +38,33 @@ export default {
   //
   #todos-router {
     position: absolute;
+    top: 0;
     left: 3rem;
-    top: 0; 
     width: calc(100% - 3rem);
-    margin: 0 auto;
+    transition: all 0.5 ease;
   }
   .showNavRouter {
-    animation: toggleRouterView 0.5s ease forwards;
+    animation: toggleRouterView 0.5s ease both;
   }
   @keyframes toggleRouterView {
     0% {
-      transform: translateX(3rem);
-      
+      left: 3rem;
     }
     100% {
-      transform: translateX(12rem);
-      width: calc(100% - 12rem);
+      left: 15rem;
+      width: calc(100% - 15rem);
+    }
+  }
+  .hiddeNavRouter {
+    animation: toggleRouterViewBack 0.5s ease both;
+  }
+  @keyframes toggleRouterViewBack {
+    0% {
+      left: 15rem;
+    }
+    100% {
+      left: 3rem;
+      width: calc(100% - 3rem);
     }
   }
 }
