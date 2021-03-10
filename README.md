@@ -1,3 +1,4 @@
 # task-app
-# Live version you can see on the next link
-https://somelink.com
+# The live version will soon be set to Heroku
+
+
