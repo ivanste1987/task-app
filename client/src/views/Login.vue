@@ -60,15 +60,15 @@ export default {
 };
 </script>
 <style lang="scss">
-.close-btn{
+.close-btn {
   outline: none;
   border: none;
   cursor: pointer;
   background: transparent;
   position: absolute;
-  right:3.5%;
-  i{
-    color:  #78b8ff;
+  right: 3.5%;
+  i {
+    color: #78b8ff;
   }
 }
 .btn {
@@ -173,7 +173,7 @@ export default {
     }
 
     .panels-container {
-      position: absolute;
+      position: relative;
       width: 100%;
       height: 100%;
       top: 0;
@@ -199,7 +199,6 @@ export default {
           }
           p {
             padding: 0.7rem 0;
-           
           }
           .btn.transparent {
             border: 2px solid #fff;
@@ -288,6 +287,9 @@ export default {
   pointer-events: all;
 }
 @media (max-width: 1024px) {
+  body {
+    font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+  }
   #auth {
     min-height: 800px;
     height: 100vh;
@@ -408,9 +410,9 @@ export default {
   .image {
     display: none;
   }
-  .panel .content {
-    padding: 0;
-  }
+  .panel
+  
+  
   #auth {
     padding: 1.5rem;
   }
@@ -421,20 +423,20 @@ export default {
   }
 
   #auth.sign-up-mode:before {
-    bottom: 35%;
+    bottom: 45%;
     left: 50%;
   }
   .singin-singup {
     width: 80%;
   }
   #auth .sign-up-form {
-    top: 0%;
+    top: -10%;
     left: 10%;
     transform: translate(-10%, -50%);
   }
 
   #auth.sign-up-mode .sign-up-form {
-    top: 35%;
+    top: 26%;
     left: 20%;
     transform: translate(-10%, -50%);
   }
@@ -448,6 +450,18 @@ export default {
     top: 90%;
     left: 50%;
     transform: translate(-10%, -50%);
+  }
+}
+
+@media (max-width: 400px) {
+  #auth #login .panels-container .right-panel {
+    padding: 0 1.5rem ;
+  }
+   #auth.sign-up-mode .panels-container .right-panel .content {
+    transform: translateY(-88%);
+  }
+   #auth #login .panels-container .left-panel  {
+    transform: translate(0%,-10%);
   }
 }
 </style>
