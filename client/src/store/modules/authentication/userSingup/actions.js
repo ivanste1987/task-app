@@ -7,7 +7,7 @@ export default {
             password: payload.password,
             age: payload.age,
         };
-        axios.post("http://localhost:3000/users", newUser)
+        axios.post("api/users", newUser)
             .then((response) => {
                 if (response.status === 201) {
                     context.commit('createMessage', response.data.message)

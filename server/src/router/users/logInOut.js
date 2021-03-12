@@ -2,7 +2,7 @@ const router = require('express').Router()
 const auth = require('../../middleware/auth')
 const User = require('../../db/models/users')
 
-router.post('/users/login', async (req, res) => {
+router.post('/api/users/login', async (req, res) => {
     console.log(req.body)
     console.log(req.headers)
     try {
@@ -19,7 +19,7 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
-router.post('/users/logout', auth, async (req, res) => {
+router.post('/api/users/logout', auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token
@@ -35,7 +35,7 @@ router.post('/users/logout', auth, async (req, res) => {
 
 })
 
-router.post('/users/logoutAll', auth, async (req, res) => {
+router.post('/api/users/logoutAll', auth, async (req, res) => {
     try {
         req.user.tokens = []
         await req.user.save()

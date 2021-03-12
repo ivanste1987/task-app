@@ -11,7 +11,7 @@ export default {
             email: payload.email,
             password: payload.password,
         }
-        await axios.post("http://localhost:3000/users/login", { ...user })
+        await axios.post("api/users/login", { ...user })
             .then((response) => {
                 if (response.status !== 200) {
                     const error = new Error(
@@ -39,7 +39,7 @@ export default {
             }
         }
 
-        axios.post("http://localhost:3000/users/logout", {}, reqAuth)
+        axios.post("api/users/logout", {}, reqAuth)
             .then((response) => {
                 if (response.status !== 200) {
                     const error = new Error(response.meesage || 'Something went wrong, please try again')
@@ -62,7 +62,7 @@ export default {
                 'Authorization': `Bearer ${context.state.token}`
             }
         }
-        axios.post("http://localhost:3000/users/logoutAll", {}, reqAuth)
+        axios.post("api/users/logoutAll", {}, reqAuth)
             .then((response) => {
                 if (response.status !== 200) {
                     const error = new Error(response.meesage || 'Something went wrong, please try again')

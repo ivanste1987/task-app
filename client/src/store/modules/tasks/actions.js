@@ -8,14 +8,14 @@ export default {
                 'Authorization': `Bearer ${token}`,
             }
         }
-        axios.get("http://localhost:3000/tasks", authUser)
+        axios.get("api/tasks", authUser)
             .then((response) => {
 
 
                 context.commit('setCompletedTasks', response.data)
                 context.commit('getAllTasks', response.data.reverse())
             }).catch((error) => {
-                console.log(error)
+                context.commit('setMessage', error.response.data.error)
             })
 
     },
@@ -30,7 +30,7 @@ export default {
             }
         }
 
-        axios.post('http://localhost:3000/tasks', task, authUser)
+        axios.post('api/tasks', task, authUser)
             .then((response) => {
 
                 context.commit('addTask', payload)
@@ -46,14 +46,14 @@ export default {
 
     },
     delete(context, id) {
-        console.log(id)
+     
         const token = context.rootGetters.token;
         const authUser = {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         }
-        axios.delete(`http://localhost:3000/tasks/delete/${id}`, authUser).then((response) => {
+        axios.delete(`api/tasks/delete/${id}`, authUser).then((response) => {
             context.commit('deleteTask', id)
             context.commit('setMessage', response.data.message)
         })
@@ -72,7 +72,7 @@ export default {
         }
 
         axios
-            .patch(`http://localhost:3000/tasks/update/${obj.id}`, { description: obj.description }, authUser)
+            .patch(`api/tasks/update/${obj.id}`, { description: obj.description }, authUser)
             .then((response) => {
                 context.commit("updateTask", payload)
                 context.commit('setMessage', response.data.message)
@@ -89,7 +89,7 @@ export default {
             _id: payload.id,
             completed: payload.completed
         }
-        console.log(obj)
+       
         const token = context.rootGetters.token;
         const authUser = {
             headers: {
@@ -97,7 +97,7 @@ export default {
             },
         };
 
-        axios.patch(`http://localhost:3000/tasks/update/${obj._id}`, { completed: obj.completed }, authUser)
+        axios.patch(`api/tasks/update/${obj._id}`, { completed: obj.completed }, authUser)
         context.commit('completedTask', payload)
     }
 
