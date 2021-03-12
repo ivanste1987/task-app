@@ -92,7 +92,7 @@ export default {
       uncompleted: [],
     };
   },
-  created() {
+  mounted() {
     this.getUser();
     this.getTasks();
   },

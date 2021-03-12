@@ -59,7 +59,7 @@ export default {
       modalShow: false,
     };
   },
-  created() {
+  mounted() {
     this.getAllTasks();
   },
   computed: {

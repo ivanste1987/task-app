@@ -32,6 +32,17 @@ app.use(userRouter)
 const logInOut = require('./router/users/logInOut')
 app.use(logInOut)
 
+
+//Handle Production
+if(process.env.NODE_ENV === 'production'){
+    //Static Folder
+    app.use(express.static(__dirname + '/public/'))
+
+    //Handele SPA (Vue)
+    app.get(/.*/, (req, res) => res.sendFile(__dirname, + '/public/index.html') );
+    
+}
+
 //PORT
 app.listen(PORT, () => {
     console.log('Server is runing on port ' + PORT)
