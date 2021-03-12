@@ -42,7 +42,7 @@ export default {
       displayImage: false
     };
   },
-  created() {
+  mounted() {
     this.getUser();
   },
   computed: {
